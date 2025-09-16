@@ -62,7 +62,7 @@
       <h1>Orden Rápida</h1>
       <div class="controls">
         <button id="lang" class="toggle" aria-label="EN/ES">ES</button>
-        <button id="theme" class="toggle" aria-label="Light/Dark">🌙</button>
+        <button id="theme" class="toggle" aria-label="Light/Dark">Dark</button>
       </div>
     </header>
 
@@ -204,7 +204,7 @@
       const cur = root.getAttribute('data-theme') || 'dark';
       const next = cur==='dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
-      $('#theme').textContent = next==='light' ? '🌞' : '🌙';
+      $('#theme').textContent = next==='light' ? 'Light' : 'Dark';
     });
 
     document.body.addEventListener('click', (e)=>{

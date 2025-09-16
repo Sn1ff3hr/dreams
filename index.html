@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orden Rápida</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1e1e1e;
+            padding: 10px;
+            text-align: center;
+        }
+        .tabs {
+            background-color: #1e1e1e;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            border-bottom: 1px solid #333;
+        }
+        .tabs span {
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+        }
+        .opciones, .resumen {
+            padding: 20px;
+        }
+        .opciones {
+            flex: 3;
+            background-color: #1e1e1e;
+        }
+        .resumen {
+            flex: 1;
+            background-color: #1e1e1e;
+            border-left: 1px solid #333;
+        }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
+        .description {
+            flex: 2;
+        }
+        .price {
+            flex: 1;
+            text-align: right;
+            margin-right: 10px;
+        }
+        .controls {
+            display: flex;
+            align-items: center;
+        }
+        .controls button, .controls span {
+            margin-left: 5px;
+        }
+        .minus, .plus {
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .quantity {
+            padding: 5px 10px;
+            border: 1px solid #fff;
+        }
+        .agregar {
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        #aceptar {
+            background-color: #00ffcc;
+            color: #000;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+            }
+            .resumen {
+                border-left: none;
+                border-top: 1px solid #333;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Orden Rápida</h1>
+    </header>
+    <div class="tabs">
+        <span>Opciones</span>
+        <span>Resumen</span>
+    </div>
+    <div class="container">
+        <div class="opciones">
+            <div class="main-items">
+                <div class="item" data-name="Tortilla + Huevos + Chorizo + Bebida" data-price="3.20">
+                    <span class="description">1. Tortilla + Huevos + Chorizo + Bebida</span>
+                    <span class="price">$3.20</span>
+                    <div class="controls">
+                        <button class="minus">-</button>
+                        <span class="quantity">0</span>
+                        <button class="plus">+</button>
+                        <button class="agregar">Agregar</button>
+                    </div>
+                </div>
+                <div class="item" data-name="Tortilla + Chorizo" data-price="2.70">
+                    <span class="description">2. Tortilla + Chorizo</span>
+                    <span class="price">$2.70</span>
+                    <div class="controls">
+                        <button class="minus">-</button>
+                        <span class="quantity">0</span>
+                        <button class="plus">+</button>
+                        <button class="agregar">Agregar</button>
+                    </div>
+                </div>
+                <div class="item" data-name="Tortilla + Huevos" data-price="2.70">
+                    <span class="description">3. Tortilla + Huevos</span>
+                    <span class="price">$2.70</span>
+                    <div class="controls">
+                        <button class="minus">-</button>
+                        <span class="quantity">0</span>
+                        <button class="plus">+</button>
+                        <button class="agregar">Agregar</button>
+                    </div>
+                </div>
+                <div class="item" data-name="2 Tortilla + 2 Huevos + 2 Chorizo + 2 Bebida" data-price="6.40">
+                    <span class="description">4. 2 Tortilla + 2 Huevos + 2 Chorizo + 2 Bebida</span>
+                    <span class="price">$6.40</span>
+                    <div class="controls">
+                        <button class="minus">-</button>
+                        <span class="quantity">0</span>
+                        <button class="plus">+</button>
+                        <button class="agregar">Agregar</button>
+                    </div>
+                </div>
+            </div>
+            <h3>Extras</h3>
+            <div class="extra-items">
+                <div class="item" data-name="Café" data-price="0.70">
+                    <span class="description">Café</span>
+                    <span class="price">$0.70</span>
+                    <div class="controls">
+                        <button class="minus">-</button>
+                        <span class="quantity">0</span>
+                        <button class="plus">+</button>
+                        <button class="agregar">Agregar</button>
+                    </div>
+                </div>
+                <div class="item" data-name="Horchata" data-price="0.70">
+                    <span class="description">Horchata</span>
+                    <span class="price">$0.70</span>
+                    <div class="controls">
+                        <button class="minus">-</button>
+                        <span class="quantity">0</span>
+                        <button class="plus">+</button>
+                        <button class="agregar">Agregar</button>
+                    </div>
+                </div>
+                <div class="item" data-name="Huevo" data-price="0.70">
+                    <span class="description">Huevo</span>
+                    <span class="price">$0.70</span>
+                    <div class="controls">
+                        <button class="minus">-</button>
+                        <span class="quantity">0</span>
+                        <button class="plus">+</button>
+                        <button class="agregar">Agregar</button>
+                    </div>
+                </div>
+                <div class="item" data-name="Tortilla" data-price="0.70">
+                    <span class="description">Tortilla</span>
+                    <span class="price">$0.70</span>
+                    <div class="controls">
+                        <button class="minus">-</button>
+                        <span class="quantity">0</span>
+                        <button class="plus">+</button>
+                        <button class="agregar">Agregar</button>
+                    </div>
+                </div>
+                <div class="item" data-name="Bebida" data-price="0.70">
+                    <span class="description">Bebida</span>
+                    <span class="price">$0.70</span>
+                    <div class="controls">
+                        <button class="minus">-</button>
+                        <span class="quantity">0</span>
+                        <button class="plus">+</button>
+                        <button class="agregar">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="resumen">
+            <div>Subtotal <span id="subtotal">$0.00</span></div>
+            <div>IVA (15%) <span id="iva">$0.00</span></div>
+            <div>TOTAL <span id="total">$0.00</span></div>
+            <button id="aceptar">Aceptar</button>
+        </div>
+    </div>
+    <script>
+        let cart = {};
+
+        const items = document.querySelectorAll('.item');
+        items.forEach(item => {
+            const minus = item.querySelector('.minus');
+            const plus = item.querySelector('.plus');
+            const agregar = item.querySelector('.agregar');
+            const quantitySpan = item.querySelector('.quantity');
+            let quantity = 0;
+
+            plus.addEventListener('click', () => {
+                quantity++;
+                quantitySpan.textContent = quantity;
+            });
+
+            minus.addEventListener('click', () => {
+                if (quantity > 0) {
+                    quantity--;
+                    quantitySpan.textContent = quantity;
+                }
+            });
+
+            agregar.addEventListener('click', () => {
+                if (quantity > 0) {
+                    const name = item.dataset.name;
+                    const price = parseFloat(item.dataset.price);
+                    cart[name] = (cart[name] || 0) + quantity;
+                    updateResumen();
+                    quantity = 0;
+                    quantitySpan.textContent = 0;
+                }
+            });
+        });
+
+        function updateResumen() {
+            let subtotal = 0;
+            for (let name in cart) {
+                const item = document.querySelector(`.item[data-name="${name}"]`);
+                const price = parseFloat(item.dataset.price);
+                subtotal += price * cart[name];
+            }
+            const iva = subtotal * 0.15;
+            const total = subtotal + iva;
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('iva').textContent = `$${iva.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        document.getElementById('aceptar').addEventListener('click', () => {
+            if (Object.keys(cart).length === 0) {
+                alert('No hay ítems en la orden');
+                return;
+            }
+            const date = new Date();
+            const dateStr = date.toLocaleDateString('es-ES');
+            const timeStr = date.toLocaleTimeString('es-ES');
+            const data = {
+                date: dateStr,
+                time: timeStr,
+                items: cart,
+                subtotal: parseFloat(document.getElementById('subtotal').textContent.slice(1)),
+                vat: parseFloat(document.getElementById('iva').textContent.slice(1)),
+                total: parseFloat(document.getElementById('total').textContent.slice(1))
+            };
+            // Replace with your Google Apps Script web app URL
+            const scriptUrl = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'no-cors' // Use if needed for cross-origin, but prefer proper setup
+            })
+            .then(() => {
+                alert('Orden enviada exitosamente');
+                cart = {};
+                updateResumen();
+            })
+            .catch(error => {
+                alert('Error al enviar la orden');
+                console.error(error);
+            });
+        });
+
+        // To set up the Google Sheet integration:
+        // 1. Create a new Google Sheet.
+        // 2. Go to Extensions > Apps Script.
+        // 3. Replace the code with the following and save:
+        /*
+        function doPost(e) {
+          var sheet = SpreadsheetApp.getActiveSheet();
+          var data = JSON.parse(e.postData.contents);
+          var itemsStr = Object.entries(data.items).map(([name, qty]) => `${name}: ${qty}`).join(', ');
+          sheet.appendRow([data.date, data.time, itemsStr, data.subtotal, data.vat, data.total]);
+          return ContentService.createTextOutput('Success').setMimeType(ContentService.MimeType.TEXT);
+        }
+        */
+        // 4. Deploy: Click Deploy > New deployment > Type: Web app > Execute as: Me > Who has access: Anyone.
+        // 5. Copy the Web app URL and replace 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL' above with it.
+    </script>
+</body>
+</html>

@@ -62,7 +62,7 @@
       <h1>Orden Rápida</h1>
       <div class="controls">
         <button id="lang" class="toggle">ES</button>
-        <button id="theme" class="toggle">Dark</button>
+        <button id="theme" class="toggle">🌙</button>
       </div>
     </header>
     <div class="layout">
@@ -92,6 +92,7 @@
   <script>
     const IVA_RATE = 0.15;
     const LOCALE = { es: 'es-EC', en: 'en-US' };
+    const ENDPOINT = 'https://script.google.com/macros/s/AKfycbx6fyoouqwPDQgpqJiej2pu0UfA9fI1jYS4Hy4OU6YTKuRXCujXItCW_NJOni74Nqg6/exec';
     let currentLang = 'es';
     const OPTIONS = [
       { id: 'op1', name: { es: 'Opción 1', en: 'Option 1' }, desc: { es: 'Tortilla + Huevos + Chorizo + Bebida', en: 'Tortilla + Eggs + Sausage + Drink' }, priceCents: 320 },
@@ -207,7 +208,7 @@
       const cur = root.getAttribute('data-theme') || 'dark';
       const next = cur === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
-      $('#theme').textContent = next === 'light' ? 'LIght' : 'Dark';
+      $('#theme').textContent = next === 'light' ? '🌞' : '🌙';
     });
 
     document.body.addEventListener('click', e => {
@@ -221,7 +222,7 @@
       act === 'add' ? add(payload) : rem(payload);
     });
 
-    $('#accept').addEventListener('click', () => {
+    $('#accept').addEventListener('click', async () => {
       if (cart.size === 0) {
         showToast('Carrito vacío');
         return;
@@ -241,20 +242,25 @@
         });
       });
       $('#loader').style.display = 'flex';
-      google.script.run
-        .withSuccessHandler(res => {
-          $('#loader').style.display = 'none';
-          showToast(res.message);
-          if (res.success) {
-            cart.clear();
-            render();
-          }
-        })
-        .withFailureHandler(() => {
-          $('#loader').style.display = 'none';
-          showToast('No se pudo conectar al servidor.');
-        })
-        .saveOrder(rows);
+      try {
+        const res = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(rows)
+        });
+        $('#loader').style.display = 'none';
+        if (res.ok) {
+          const result = await res.json();
+          showToast(result.message || '¡Pedido enviado con éxito!');
+          cart.clear();
+          render();
+        } else {
+          showToast('Error al enviar. Intenta de nuevo.');
+        }
+      } catch (err) {
+        $('#loader').style.display = 'none';
+        showToast('No se pudo conectar al servidor.');
+      }
     });
 
     function showToast(msg, ms = 1500) {

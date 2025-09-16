@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orden Rápida</title>
     <style>
@@ -96,6 +96,11 @@
             width: 100%;
             font-weight: bold;
         }
+        .clicked {
+            background-color: #00ffcc !important;
+            color: #000 !important;
+            transition: background-color 0s, color 0s;
+        }
         @media (max-width: 600px) {
             .container {
                 flex-direction: column;
@@ -106,205 +111,220 @@
             }
         }
     </style>
-</head>
-<body>
-    <header>
-        <h1>Orden Rápida</h1>
-    </header>
-    <div class="tabs">
-        <span>Opciones</span>
-        <span>Resumen</span>
-    </div>
-    <div class="container">
-        <div class="opciones">
-            <div class="main-items">
-                <div class="item" data-name="Tortilla + Huevos + Chorizo + Bebida" data-price="3.20">
-                    <span class="description">1. Tortilla + Huevos + Chorizo + Bebida</span>
-                    <span class="price">$3.20</span>
-                    <div class="controls">
+
+
+    
+        Orden Rápida
+    
+    
+        Opciones
+        Resumen
+    
+    
+        
+            
+                
+                    1. Tortilla + Huevos + Chorizo + Bebida
+                    $3.20
+                    
                         <button class="minus">-</button>
-                        <span class="quantity">0</span>
+                        0
                         <button class="plus">+</button>
-                        <button class="agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Tortilla + Chorizo" data-price="2.70">
-                    <span class="description">2. Tortilla + Chorizo</span>
-                    <span class="price">$2.70</span>
-                    <div class="controls">
+                        <button class="agregar">Add</button>
+                    
+                
+                
+                    2. Tortilla + Chorizo
+                    $2.70
+                    
                         <button class="minus">-</button>
-                        <span class="quantity">0</span>
+                        0
                         <button class="plus">+</button>
-                        <button class="agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Tortilla + Huevos" data-price="2.70">
-                    <span class="description">3. Tortilla + Huevos</span>
-                    <span class="price">$2.70</span>
-                    <div class="controls">
+                        <button class="agregar">Add</button>
+                    
+                
+                
+                    3. Tortilla + Huevos
+                    $2.70
+                    
                         <button class="minus">-</button>
-                        <span class="quantity">0</span>
+                        0
                         <button class="plus">+</button>
-                        <button class="agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="item" data-name="2 Tortilla + 2 Huevos + 2 Chorizo + 2 Bebida" data-price="6.40">
-                    <span class="description">4. 2 Tortilla + 2 Huevos + 2 Chorizo + 2 Bebida</span>
-                    <span class="price">$6.40</span>
-                    <div class="controls">
+                        <button class="agregar">Add</button>
+                    
+                
+                
+                    4. 2 Tortilla + 2 Huevos + 2 Chorizo + 2 Bebida
+                    $6.40
+                    
                         <button class="minus">-</button>
-                        <span class="quantity">0</span>
+                        0
                         <button class="plus">+</button>
-                        <button class="agregar">Agregar</button>
-                    </div>
-                </div>
-            </div>
-            <h3>Extras</h3>
-            <div class="extra-items">
-                <div class="item" data-name="Café" data-price="0.70">
-                    <span class="description">Café</span>
-                    <span class="price">$0.70</span>
-                    <div class="controls">
+                        <button class="agregar">Add</button>
+                    
+                
+            
+            Extras
+            
+                
+                    Café
+                    $0.70
+                    
                         <button class="minus">-</button>
-                        <span class="quantity">0</span>
+                        0
                         <button class="plus">+</button>
-                        <button class="agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Horchata" data-price="0.70">
-                    <span class="description">Horchata</span>
-                    <span class="price">$0.70</span>
-                    <div class="controls">
+                        <button class="agregar">Add</button>
+                    
+                
+                
+                    Horchata
+                    $0.70
+                    
                         <button class="minus">-</button>
-                        <span class="quantity">0</span>
+                        0
                         <button class="plus">+</button>
-                        <button class="agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Huevo" data-price="0.70">
-                    <span class="description">Huevo</span>
-                    <span class="price">$0.70</span>
-                    <div class="controls">
+                        <button class="agregar">Add</button>
+                    
+                
+                
+                    Huevo
+                    $0.70
+                    
                         <button class="minus">-</button>
-                        <span class="quantity">0</span>
+                        0
                         <button class="plus">+</button>
-                        <button class="agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Tortilla" data-price="0.70">
-                    <span class="description">Tortilla</span>
-                    <span class="price">$0.70</span>
-                    <div class="controls">
+                        <button class="agregar">Add</button>
+                    
+                
+                
+                    Tortilla
+                    $0.70
+                    
                         <button class="minus">-</button>
-                        <span class="quantity">0</span>
+                        0
                         <button class="plus">+</button>
-                        <button class="agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Bebida" data-price="0.70">
-                    <span class="description">Bebida</span>
-                    <span class="price">$0.70</span>
-                    <div class="controls">
+                        <button class="agregar">Add</button>
+                    
+                
+                
+                    Bebida
+                    $0.70
+                    
                         <button class="minus">-</button>
-                        <span class="quantity">0</span>
+                        0
                         <button class="plus">+</button>
-                        <button class="agregar">Agregar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="resumen">
-            <div>Subtotal <span id="subtotal">$0.00</span></div>
-            <div>IVA (15%) <span id="iva">$0.00</span></div>
-            <div>TOTAL <span id="total">$0.00</span></div>
+                        <button class="agregar">Add</button>
+                    
+                
+            
+        
+        
+            Subtotal $0.00
+            IVA (15%) $0.00
+            TOTAL $0.00
             <button id="aceptar">Aceptar</button>
-        </div>
-    </div>
+        
+    
     <script>
         let cart = {};
-
-        const items = document.querySelectorAll('.item');
-        items.forEach(item => {
-            const minus = item.querySelector('.minus');
-            const plus = item.querySelector('.plus');
-            const agregar = item.querySelector('.agregar');
-            const quantitySpan = item.querySelector('.quantity');
-            let quantity = 0;
-
-            plus.addEventListener('click', () => {
-                quantity++;
-                quantitySpan.textContent = quantity;
-            });
-
-            minus.addEventListener('click', () => {
-                if (quantity > 0) {
-                    quantity--;
-                    quantitySpan.textContent = quantity;
-                }
-            });
-
-            agregar.addEventListener('click', () => {
-                if (quantity > 0) {
-                    const name = item.dataset.name;
-                    const price = parseFloat(item.dataset.price);
-                    cart[name] = (cart[name] || 0) + quantity;
-                    updateResumen();
-                    quantity = 0;
-                    quantitySpan.textContent = 0;
-                }
-            });
-        });
-
-        function updateResumen() {
-            let subtotal = 0;
-            for (let name in cart) {
-                const item = document.querySelector(`.item[data-name="${name}"]`);
-                const price = parseFloat(item.dataset.price);
-                subtotal += price * cart[name];
-            }
-            const iva = subtotal * 0.15;
-            const total = subtotal + iva;
-            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('iva').textContent = `$${iva.toFixed(2)}`;
-            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
-        }
-
-        document.getElementById('aceptar').addEventListener('click', () => {
-            if (Object.keys(cart).length === 0) {
-                alert('No hay ítems en la orden');
-                return;
-            }
-            const date = new Date();
-            const dateStr = date.toLocaleDateString('es-ES');
-            const timeStr = date.toLocaleTimeString('es-ES');
-            const data = {
-                date: dateStr,
-                time: timeStr,
-                items: cart,
-                subtotal: parseFloat(document.getElementById('subtotal').textContent.slice(1)),
-                vat: parseFloat(document.getElementById('iva').textContent.slice(1)),
-                total: parseFloat(document.getElementById('total').textContent.slice(1))
-            };
-            // Replace with your Google Apps Script web app URL
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycbyc8JmLEKdMnfOpmUf6QOKY7oS_123tddd3jaQl1eTtNzRnWdIxElwSZJWNdGQ0KrfA/exec';
-            fetch(scriptUrl, {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                mode: 'no-cors' // Use if needed for cross-origin, but prefer proper setup
-            })
-            .then(() => {
-                alert('Orden enviada exitosamente');
-                cart = {};
-                updateResumen();
-            })
-            .catch(error => {
-                alert('Error al enviar la orden');
-                console.error(error);
-            });
-        });
-    </script>
+const items = document.querySelectorAll('.item');
+items.forEach(item => {
+const minus = item.querySelector('.minus');
+const plus = item.querySelector('.plus');
+const agregar = item.querySelector('.agregar');
+const quantitySpan = item.querySelector('.quantity');
+let quantity = 0;
+plus.addEventListener('click', () => {
+quantity++;
+quantitySpan.textContent = quantity;
+plus.classList.add('clicked');
+setTimeout(() => plus.classList.remove('clicked'), 3000);
+updateCart(item);
+});
+minus.addEventListener('click', () => {
+if (quantity > 0) {
+quantity--;
+quantitySpan.textContent = quantity;
+minus.classList.add('clicked');
+setTimeout(() => minus.classList.remove('clicked'), 3000);
+updateCart(item);
+}
+});
+agregar.addEventListener('click', () => {
+if (quantity > 0) {
+const name = item.dataset.name;
+const price = parseFloat(item.dataset.price);
+cart[name] = (cart[name] || 0) + quantity;
+updateResumen();
+quantity = 0;
+quantitySpan.textContent = 0;
+}
+});
+});
+function updateCart(item) {
+const name = item.dataset.name;
+const price = parseFloat(item.dataset.price);
+const quantity = parseInt(item.querySelector('.quantity').textContent);
+if (quantity > 0) {
+cart[name] = quantity;
+} else {
+delete cart[name];
+}
+updateResumen();
+}
+function updateResumen() {
+let subtotal = 0;
+for (let name in cart) {
+const item = document.querySelector(.item[data-name="${name}"]);
+const price = parseFloat(item.dataset.price);
+subtotal += price * cart[name];
+}
+const iva = subtotal * 0.15;
+const total = subtotal + iva;
+document.getElementById('subtotal').textContent = $${subtotal.toFixed(2)};
+document.getElementById('iva').textContent = $${iva.toFixed(2)};
+document.getElementById('total').textContent = $${total.toFixed(2)};
+}
+document.getElementById('aceptar').addEventListener('click', () => {
+if (Object.keys(cart).length === 0) {
+alert('No hay ítems en la orden');
+return;
+}
+const date = new Date();
+const dateStr = date.toLocaleDateString('es-ES');
+const timeStr = date.toLocaleTimeString('es-ES');
+const data = {
+date: dateStr,
+time: timeStr,
+items: cart,
+subtotal: parseFloat(document.getElementById('subtotal').textContent.slice(1)),
+vat: parseFloat(document.getElementById('iva').textContent.slice(1)),
+total: parseFloat(document.getElementById('total').textContent.slice(1))
+};
+const scriptUrl = 'https://script.google.com/macros/s/AKfycbwSNZmyetxR7sl6x2mO8QGvzv_W59qWrrVFkETZ_BdseetJzB4aQfint9MVLHHuXzw/exec';
+fetch(scriptUrl, {
+method: 'POST',
+body: JSON.stringify(data),
+headers: {
+'Content-Type': 'application/json'
+}
+})
+.then(response => {
+if (!response.ok) {
+throw new Error('Network response was not ok');
+}
+return response.text();
+})
+.then(text => {
+alert('Orden enviada exitosamente');
+cart = {};
+updateResumen();
+})
+.catch(error => {
+alert('Error al enviar la orden: ' + error.message);
+console.error(error);
+});
+});
+</script>
 </body>
 </html>

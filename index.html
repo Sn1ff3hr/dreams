@@ -301,7 +301,7 @@ subtotal: parseFloat(document.getElementById('subtotal').textContent.slice(1)),
 vat: parseFloat(document.getElementById('iva').textContent.slice(1)),
 total: parseFloat(document.getElementById('total').textContent.slice(1))
 };
-const scriptUrl = 'https://script.google.com/macros/s/AKfycbwSNZmyetxR7sl6x2mO8QGvzv_W59qWrrVFkETZ_BdseetJzB4aQfint9MVLHHuXzw/exec';
+const scriptUrl = 'https://script.google.com/macros/s/AKfycby4qXKJurprCQJkQVgAcCzTSY96wwtNkDPdwK6AEgrcWEdy2IO04E9WcqoZTDCsutHxBA/exec';
 fetch(scriptUrl, {
 method: 'POST',
 body: JSON.stringify(data),

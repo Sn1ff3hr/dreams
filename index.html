@@ -315,9 +315,9 @@
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'text/plain'
                 },
-                mode: 'no-cors' // Added to bypass CORS issues
+                mode: 'cors' // Enable CORS mode to read the response
             })
             .then(response => {
                 if (!response.ok) {
@@ -325,16 +325,18 @@
                 }
                 return response.text();
             })
-            .catch(error => {
-                console.error('Fetch error:', error);
-                alert('Error al enviar la orden: ' + error.message + '. Verifique la URL o redepliegue la aplicación web.');
-            })
             .then(text => {
-                if (text) {
+                if (text.includes('Success')) {
                     alert('Orden enviada exitosamente');
                     cart = {};
                     updateResumen();
+                } else {
+                    alert('Respuesta del servidor: ' + text);
                 }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                alert('Error al enviar la orden: ' + error.message + '. Verifique la consola para más detalles.');
             });
         });
     </script>

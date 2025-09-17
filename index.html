@@ -95,7 +95,7 @@
 
   <script>
     const IVA_RATE = 0.15;
-    const LOCALE = { es: 'es-EC', en: 'en-US' };
+    const LOCALE = 'en-US'; // Use en-US for USD currency formatting
     let currentLang = 'es';
 
     const OPTIONS = [
@@ -115,7 +115,7 @@
     const cart = new Map();
     const $ = s => document.querySelector(s);
     const t = v => typeof v === 'string' ? v : v[currentLang];
-    const money = c => (c/100).toLocaleString(LOCALE[currentLang], { style:'currency', currency:'USD' });
+    const money = c => (c/100).toLocaleString(LOCALE, { style:'currency', currency:'USD' });
 
     function add(item){
       const line = cart.get(item.id) || { ...item, qty:0 };
@@ -229,7 +229,9 @@
       const mm = String(date.getMonth() + 1).padStart(2, '0');
       const dd = String(date.getDate()).padStart(2, '0');
       const yyyy = date.getFullYear();
-      return `${mm}/${dd}/${yyyy} 23:59`;
+      const hh = String(date.getHours()).padStart(2, '0');
+      const min = String(date.getMinutes()).padStart(2, '0');
+      return `${mm}/${dd}/${yyyy} ${hh}:${min}`;
     }
 
     $('#accept').addEventListener('click', async () => {

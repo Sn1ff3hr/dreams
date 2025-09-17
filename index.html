@@ -20,7 +20,7 @@
     .layout{display:grid;grid-template-columns:1fr .8fr;gap:var(--gap)}
     @media (max-width:900px){.layout{grid-template-columns:1fr}}
     .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:var(--pad)}
-    aside.card{display:flex:flex-direction:column}
+    aside.card{display:flex;flex-direction:column}
     .title{font-size:1.2rem;font-weight:800;margin:0 0 1rem}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--gap)}
     .opt{background:rgba(255,255,255,.02);border:2px solid var(--line);border-radius:var(--radius);padding:1rem;transition:transform .15s ease,background .15s ease}
@@ -32,7 +32,7 @@
     .actions{display:flex;gap:.5rem;margin-top:.6rem}
     .btn{padding:6px 12px;border:1px solid var(--line);background:transparent;color:var(--fg);font-weight:800;border-radius:10px;cursor:pointer;font-size:13px;white-space:nowrap;transition:background .15s ease,color .15s ease,border-color .15s ease}
     .btn-adding{background:#22c3a6 !important;color:#0b0f18 !important;border-color:#22c3a6 !important}
-    .ex-list{display:flex:flex-direction:column;gap:.75rem}
+    .ex-list{display:flex;flex-direction:column;gap:.75rem}
     .ex-row{display:grid;grid-template-columns:1fr auto;align-items:center;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:.75rem 1rem}
     .ex-left{display:flex;align-items:center;gap:1rem;font-weight:800}
     .ex-price{font-size:.9rem;padding:.35rem .7rem;border-radius:8px;border:1px dashed var(--line);background:rgba(255,255,255,.05);font-weight:800}
@@ -220,19 +220,16 @@
     const loader = $('#loader');
     const toast = $('#toast');
     function showToast(msg, ms=1800){
-      const now = new Date().toLocaleString("es-EC", {
-        timeZone: "America/Guayaquil",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true
-      });
-      toast.textContent = `${msg} a las ${now}`;
+      toast.textContent = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), ms);
+    }
+
+    function formatTimestamp(date) {
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      const yyyy = date.getFullYear();
+      return `${mm}/${dd}/${yyyy} 23:59`;
     }
 
     $('#accept').addEventListener('click', async () => {
@@ -243,7 +240,7 @@
         const rowVAT = Math.round(rowSubtotal * IVA_RATE);
         const rowTotal = rowSubtotal + rowVAT;
         rows.push({
-          timestamp: new Date().toISOString(), // UTC timestamp for Apps Script to convert
+          timestamp: formatTimestamp(new Date()),
           item: item.name,
           qty: item.qty,
           subtotal: (rowSubtotal/100).toFixed(2),

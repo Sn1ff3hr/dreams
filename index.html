@@ -109,13 +109,20 @@
       { id:'ex_cola', name:{es:'Cola',en:'Cola'}, priceCents:70 },
       { id:'ex_chorizo', name:{es:'Chorizo',en:'Sausage'}, priceCents:50 },
       { id:'ex_huevo', name:{es:'Huevo',en:'Egg'}, priceCents:50 },
+      { id:'ex_jugos', name:{es:'Jugos',en:'Juice'}, priceCents:100 },
       { id:'ex_tortilla', name:{es:'Tortilla',en:'Tortilla'}, priceCents:150 }
     ];
+
+    const ACTION_LABELS = {
+      add:{ es:'+ Agregar', en:'+ Add' },
+      rem:{ es:'− Quitar',  en:'− Remove' }
+    };
 
     const cart = new Map();
     const $ = s => document.querySelector(s);
     const t = v => typeof v === 'string' ? v : v[currentLang];
     const money = c => (c/100).toLocaleString(LOCALE, { style:'currency', currency:'USD' });
+    const actLabel = act => ACTION_LABELS[act]?.[currentLang] ?? ACTION_LABELS[act]?.es ?? '';
 
     function add(item){
       const line = cart.get(item.id) || { ...item, qty:0 };
@@ -145,8 +152,8 @@
             <div>
               <div class="desc">${t(o.desc)} — <strong>${money(o.priceCents)}</strong></div>
               <div class="actions">
-                <button class="btn" data-act="rem" data-id="${o.id}">− Quitar</button>
-                <button class="btn" data-act="add" data-id="${o.id}">+ Agregar</button>
+                <button class="btn" data-act="rem" data-id="${o.id}">${actLabel('rem')}</button>
+                <button class="btn" data-act="add" data-id="${o.id}">${actLabel('add')}</button>
               </div>
             </div>
           </div>`;
@@ -161,8 +168,8 @@
         row.innerHTML = `
           <div class="ex-left">${t(e.name)} <span class="ex-price">${money(e.priceCents)}</span></div>
           <div class="actions">
-            <button class="btn" data-act="rem" data-id="${e.id}">−</button>
-            <button class="btn" data-act="add" data-id="${e.id}">+ Agregar</button>
+            <button class="btn" data-act="rem" data-id="${e.id}">${actLabel('rem')}</button>
+            <button class="btn" data-act="add" data-id="${e.id}">${actLabel('add')}</button>
           </div>`;
         host.appendChild(row);
       });

@@ -216,6 +216,16 @@
                         <button class="agregar">Add</button>
                     </div>
                 </div>
+                <div class="item" data-name="Jugos" data-price="1.00">
+                    <span class="description">Jugos</span>
+                    <span class="price">$1.00</span>
+                    <div class="controls">
+                        <button class="minus">- Remove</button>
+                        <span class="quantity">0</span>
+                        <button class="plus">+ Add</button>
+                        <button class="agregar">Add</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="resumen">

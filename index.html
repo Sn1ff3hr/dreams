@@ -94,7 +94,8 @@
   <div id="toast" class="toast">¡Pedido enviado con éxito!</div>
 
   <script>
-    const IVA_RATE = 0.15;
+    const CENTS_PER_UNIT = 100;
+    const IVA_PERCENT = 15;
     const LOCALE = 'en-US'; // Use en-US for USD currency formatting
     let currentLang = 'es';
 
@@ -121,7 +122,8 @@
     const cart = new Map();
     const $ = s => document.querySelector(s);
     const t = v => typeof v === 'string' ? v : v[currentLang];
-    const money = c => (c/100).toLocaleString(LOCALE, { style:'currency', currency:'USD' });
+    const money = c => (c / CENTS_PER_UNIT).toLocaleString(LOCALE, { style:'currency', currency:'USD' });
+    const vatCents = cents => Math.floor((cents * IVA_PERCENT + CENTS_PER_UNIT / 2) / CENTS_PER_UNIT);
     const actLabel = act => ACTION_LABELS[act]?.[currentLang] ?? ACTION_LABELS[act]?.es ?? '';
 
     function add(item){
@@ -192,7 +194,7 @@
           <div><strong>${money(line.priceCents*line.qty)}</strong></div>`;
         box.appendChild(el);
       });
-      const vat = Math.round(subtotal * IVA_RATE);
+      const vat = vatCents(subtotal);
       const total = subtotal + vat;
       $('#subtotal').textContent = money(subtotal);
       $('#vat').textContent = money(vat);
@@ -246,7 +248,7 @@
       const rows = [];
       cart.forEach(item => {
         const rowSubtotal = item.qty * item.priceCents;
-        const rowVAT = Math.round(rowSubtotal * IVA_RATE);
+        const rowVAT = vatCents(rowSubtotal);
         const rowTotal = rowSubtotal + rowVAT;
         rows.push({
           timestamp: formatTimestamp(new Date()),

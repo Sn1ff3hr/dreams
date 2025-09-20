@@ -252,9 +252,9 @@
           timestamp: formatTimestamp(new Date()),
           item: item.name,
           qty: item.qty,
-          subtotal: (rowSubtotal/100).toFixed(2),
-          vat: (rowVAT/100).toFixed(2),
-          total: (rowTotal/100).toFixed(2)
+          subtotal: money(rowSubtotal),
+          vat: money(rowVAT),
+          total: money(rowTotal)
         });
       });
 

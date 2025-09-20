@@ -272,13 +272,6 @@
       rem:{ es:'− Quitar',  en:'− Remove' }
     };
 
-    const OPTION_THEME = {
-      op1:'cafe',
-      op2:'chorizo',
-      op3:'huevo',
-      op4:'tortilla'
-    };
-
     const EXTRA_THEME = {
       ex_cafe:'cafe',
       ex_cola:'cola',
@@ -312,8 +305,8 @@
     function buildOptions(){
       const host = $('#opts'); host.innerHTML='';
       OPTIONS.forEach((o,i)=>{
-        const variant = OPTION_THEME[o.id] || 'cafe';
-        const badgeClass = (i % 4) + 1;
+        const variant = 'cafe';
+        const badgeClass = 1;
         const el = document.createElement('article');
         el.className = `card option-card card--${variant}`;
         el.innerHTML = `

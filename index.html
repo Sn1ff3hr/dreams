@@ -1,72 +1,210 @@
 <!doctype html>
-<html lang="es" data-theme="dark">
+<html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root{
-      --fg:#e8eef6; --card:#161a2b; --line:#2b2f40; --muted:#a9b3c3;
-      --op1:#7aa8ff; --op2:#22c3a6; --op3:#ff8ab3; --op4:#c466ff; --ex:#c3b5ff;
-      --bg-gradient:linear-gradient(180deg,#0e1324,#0b1720,#151a2e);
-      --surface-soft:rgba(255,255,255,.02);
-      --surface-hover:rgba(255,255,255,.05);
-      --surface-softer:rgba(255,255,255,.03);
-      --ex-price-bg:rgba(255,255,255,.05);
-      --divider:rgba(255,255,255,.06);
-      --radius:14px; --gap:1rem; --pad:1rem;
+      /* neutrals */
+      --bg:#F7FAFC;
+      --surface:#FFFFFF;
+      --ink:#0F172A;
+      --muted:#5B6B7A;
+      --line:#E6EDF5;
+      --line-strong:#D7E0EA;
+      --focus:#3B82F6;
+
+      /* badge numbers 1–4 */
+      --num1-bg:#8B5E3C; --num1-fg:#FFFFFF;
+      --num2-bg:#D95F2A; --num2-fg:#FFFFFF;
+      --num3-bg:#F4C542; --num3-fg:#0F172A;
+      --num4-bg:#9A1F1F; --num4-fg:#FFFFFF;
+
+      /* café */
+      --cafe-main:#6F4E37;
+      --cafe-accent:#EEDFCC;
+      --cafe-hover:#3B2C25;
+      --cafe-border:#C9B6A2;
+      --cafe-ink:#0F172A;
+      --cafe-btn-ink:#FFFFFF;
+
+      /* cola */
+      --cola-main:#B22222;
+      --cola-accent:#F8F8FF;
+      --cola-hover:#8B1A1A;
+      --cola-border:#E1C5C5;
+      --cola-ink:#0F172A;
+      --cola-btn-ink:#FFFFFF;
+
+      /* chorizo */
+      --chorizo-main:#D35400;
+      --chorizo-accent:#F5C16C;
+      --chorizo-hover:#7C2D12;
+      --chorizo-border:#EBC89E;
+      --chorizo-ink:#0F172A;
+      --chorizo-btn-ink:#FFFFFF;
+
+      /* huevo */
+      --huevo-main:#FFD95B;
+      --huevo-accent:#FFF9F1;
+      --huevo-hover:#F4B400;
+      --huevo-border:#F1E0B0;
+      --huevo-ink:#0F172A;
+      --huevo-btn-ink:#0F172A;
+
+      /* jugos */
+      --jugos-main:#FF7F50;
+      --jugos-accent:#A3D65C;
+      --jugos-hover:#E5533D;
+      --jugos-border:#FFC4B3;
+      --jugos-ink:#0F172A;
+      --jugos-btn-ink:#FFFFFF;
+
+      /* tortilla */
+      --tortilla-main:#E4C580;
+      --tortilla-accent:#FFF6DF;
+      --tortilla-hover:#D4A373;
+      --tortilla-border:#EADBB6;
+      --tortilla-ink:#0F172A;
+      --tortilla-btn-ink:#0F172A;
+
+      --radius:14px;
+      --gap:1.2rem;
     }
+
+    [data-theme="dark"]{
+      --bg:#0F172A;
+      --surface:#121C2E;
+      --ink:#E2E8F0;
+      --muted:#94A3B8;
+      --line:#1F2A3D;
+      --line-strong:#2C3A51;
+    }
+
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg-gradient);color:var(--fg);min-height:100%}
+    html,body{margin:0;padding:0;font-family:Inter,system-ui,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);min-height:100%}
     body{display:flex;align-items:center;justify-content:center}
-    .wrap{width:100%;max-width:1200px;margin:auto;padding:2rem 1rem}
-    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
-    h1{margin:0;font-size:1.8rem}
-    .controls{display:flex;gap:.5rem}
-    .toggle{padding:.5rem 1rem;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;font-weight:700;cursor:pointer}
-    .layout{display:grid;grid-template-columns:1fr .8fr;gap:var(--gap)}
+
+    .wrap{width:100%;max-width:1200px;margin:auto;padding:2.5rem 1.25rem;display:flex;flex-direction:column;gap:2rem}
+
+    header{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    h1{margin:0;font-size:2rem}
+    h2,h3{margin:0}
+
+    .controls{display:flex;gap:.75rem}
+    .toggle{padding:.6rem 1.1rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font-weight:700;cursor:pointer;transition:background .2s ease,border-color .2s ease,transform .15s ease}
+    .toggle:hover{background:rgba(59,130,246,.12);border-color:var(--focus)}
+    .toggle:active{transform:scale(.97)}
+
+    .layout{display:grid;grid-template-columns:1.2fr .8fr;gap:var(--gap)}
     @media (max-width:900px){.layout{grid-template-columns:1fr}}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:var(--pad)}
-    aside.card{display:flex;flex-direction:column}
-    .title{font-size:1.2rem;font-weight:800;margin:0 0 1rem}
+
+    .card{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:1.25rem;box-shadow:0 18px 40px rgba(15,23,42,.08)}
+    .card.edge-strong{border-color:var(--line-strong)}
+    aside.card{display:flex;flex-direction:column;gap:1rem}
+    .card--section{display:flex;flex-direction:column;gap:1.4rem}
+    .card--nested{padding:1.1rem;margin-top:.5rem;box-shadow:none}
+
+    .card--cafe{background:linear-gradient(#ffffff,var(--cafe-accent));border-color:var(--cafe-border)}
+    .card--cola{background:linear-gradient(#ffffff,var(--cola-accent));border-color:var(--cola-border)}
+    .card--chorizo{background:linear-gradient(#ffffff,var(--chorizo-accent));border-color:var(--chorizo-border)}
+    .card--huevo{background:linear-gradient(#ffffff,var(--huevo-accent));border-color:var(--huevo-border)}
+    .card--jugos{background:linear-gradient(#ffffff,#FFE6DC);border-color:var(--jugos-border)}
+    .card--tortilla{background:linear-gradient(#ffffff,var(--tortilla-accent));border-color:var(--tortilla-border)}
+
+    [data-theme="dark"] .card{background:linear-gradient(145deg,rgba(18,28,46,.92),rgba(18,28,46,.82));box-shadow:0 18px 40px rgba(8,12,24,.38)}
+    [data-theme="dark"] .card--cafe{background:linear-gradient(145deg,rgba(18,28,46,.92),rgba(111,78,55,.3));border-color:rgba(201,182,162,.35)}
+    [data-theme="dark"] .card--cola{background:linear-gradient(145deg,rgba(18,28,46,.92),rgba(178,34,34,.28));border-color:rgba(225,197,197,.35)}
+    [data-theme="dark"] .card--chorizo{background:linear-gradient(145deg,rgba(18,28,46,.92),rgba(211,84,0,.3));border-color:rgba(235,200,158,.35)}
+    [data-theme="dark"] .card--huevo{background:linear-gradient(145deg,rgba(18,28,46,.92),rgba(255,217,91,.28));border-color:rgba(241,224,176,.35)}
+    [data-theme="dark"] .card--jugos{background:linear-gradient(145deg,rgba(18,28,46,.92),rgba(255,127,80,.24));border-color:rgba(255,196,179,.35)}
+    [data-theme="dark"] .card--tortilla{background:linear-gradient(145deg,rgba(18,28,46,.92),rgba(228,197,128,.28));border-color:rgba(234,219,182,.35)}
+
+    .title{font-size:1.3rem;font-weight:800;margin:0}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--gap)}
-    .opt{background:var(--surface-soft);border:2px solid var(--line);border-radius:var(--radius);padding:1rem;transition:transform .15s ease,background .15s ease}
-    .opt:hover{background:var(--surface-hover);transform:scale(1.02)}
-    .top{display:flex;align-items:center;gap:.8rem;margin-bottom:.5rem}
-    .btn50{width:44px;height:35px;border:none;border-radius:8px;font-weight:900;color:#111}
-    .op1{background:var(--op1)} .op2{background:var(--op2)} .op3{background:var(--op3)} .op4{background:var(--op4)}
-    .desc{color:var(--muted);font-size:.95rem}
-    .actions{display:flex;gap:.5rem;margin-top:.6rem}
-    .btn{padding:6px 12px;border:1px solid var(--line);background:transparent;color:var(--fg);font-weight:800;border-radius:10px;cursor:pointer;font-size:13px;white-space:nowrap;transition:background .15s ease,color .15s ease,border-color .15s ease}
-    .btn-adding{background:#22c3a6 !important;color:#0b0f18 !important;border-color:#22c3a6 !important}
-    .ex-list{display:flex;flex-direction:column;gap:.75rem}
-    .ex-row{display:grid;grid-template-columns:1fr auto;align-items:center;background:var(--surface-softer);border:1px solid var(--line);border-radius:12px;padding:.75rem 1rem}
-    .ex-left{display:flex;align-items:center;gap:1rem;font-weight:800}
-    .ex-price{font-size:.9rem;padding:.35rem .7rem;border-radius:8px;border:1px dashed var(--line);background:var(--ex-price-bg);font-weight:800}
-    .cart{border:1px dashed var(--line);border-radius:var(--radius);padding:1rem;max-height:320px;overflow:auto;background:var(--surface-soft)}
-    .line{display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:center;padding:.6rem 0;border-bottom:1px dotted var(--divider)}
+
+    .option-card{display:flex;flex-direction:column;gap:1rem;min-height:220px}
+    .option-header{display:flex;gap:1rem;align-items:flex-start}
+    .option-title{margin:0;font-size:1.1rem;font-weight:800}
+    .desc{color:var(--muted);font-size:.95rem;margin-top:.35rem;line-height:1.4}
+    .option-footer{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .price{font-size:1.1rem;font-weight:800}
+
+    .badge{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;font-weight:700;font-size:1rem}
+    .badge--1{background:var(--num1-bg);color:var(--num1-fg)}
+    .badge--2{background:var(--num2-bg);color:var(--num2-fg)}
+    .badge--3{background:var(--num3-bg);color:var(--num3-fg)}
+    .badge--4{background:var(--num4-bg);color:var(--num4-fg)}
+
+    .btn{appearance:none;border:0;border-radius:10px;padding:.55rem .9rem;font-weight:600;cursor:pointer;transition:transform .05s ease,background .15s ease,box-shadow .15s ease;color:var(--ink);background:var(--surface);border:1px solid var(--line)}
+    .btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+    .btn:hover{background:rgba(15,23,42,.08)}
+
+    .btn--cafe{background:var(--cafe-main);color:var(--cafe-btn-ink);border-color:var(--cafe-border)}
+    .btn--cafe:hover{background:var(--cafe-hover)}
+
+    .btn--cola{background:var(--cola-main);color:var(--cola-btn-ink);border-color:var(--cola-border)}
+    .btn--cola:hover{background:var(--cola-hover)}
+
+    .btn--chorizo{background:var(--chorizo-main);color:var(--chorizo-btn-ink);border-color:var(--chorizo-border)}
+    .btn--chorizo:hover{background:var(--chorizo-hover)}
+
+    .btn--huevo{background:var(--huevo-main);color:var(--huevo-btn-ink);border-color:var(--huevo-border)}
+    .btn--huevo:hover{background:var(--huevo-hover)}
+
+    .btn--jugos{background:var(--jugos-main);color:var(--jugos-btn-ink);border-color:var(--jugos-border)}
+    .btn--jugos:hover{background:var(--jugos-hover)}
+
+    .btn--tortilla{background:var(--tortilla-main);color:var(--tortilla-btn-ink);border-color:var(--tortilla-border)}
+    .btn--tortilla:hover{background:var(--tortilla-hover)}
+
+    .actions{display:flex;flex-wrap:wrap;gap:.5rem}
+    .actions .btn{min-width:110px;text-align:center}
+
+    .ex-list{display:flex;flex-direction:column;gap:.9rem}
+    .extra-row{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;border:1px solid var(--line);border-radius:12px;padding:.9rem 1rem;background:linear-gradient(#ffffff,rgba(247,250,252,.9))}
+    .extra-info{display:flex;flex-direction:column;gap:.25rem;font-weight:700}
+    .price-chip{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;padding:.35rem .75rem;border-radius:999px;background:rgba(15,23,42,.06);font-size:.85rem;font-weight:600;color:var(--muted)}
+    .extra-row.edge--cafe{border-color:var(--cafe-border)}
+    .extra-row.edge--cola{border-color:var(--cola-border)}
+    .extra-row.edge--chorizo{border-color:var(--chorizo-border)}
+    .extra-row.edge--huevo{border-color:var(--huevo-border)}
+    .extra-row.edge--jugos{border-color:var(--jugos-border)}
+    .extra-row.edge--tortilla{border-color:var(--tortilla-border)}
+
+    [data-theme="dark"] .extra-row{background:linear-gradient(145deg,rgba(18,28,46,.92),rgba(18,28,46,.82));border-color:var(--line-strong)}
+    [data-theme="dark"] .price-chip{background:rgba(226,232,240,.08);color:var(--ink)}
+
+    hr{border:none;border-top:1px solid var(--line);margin:.85rem 0}
+    hr.edge--cafe{border-color:var(--cafe-border)}
+    hr.edge--cola{border-color:var(--cola-border)}
+    hr.edge--chorizo{border-color:var(--chorizo-border)}
+    hr.edge--huevo{border-color:var(--huevo-border)}
+    hr.edge--jugos{border-color:var(--jugos-border)}
+    hr.edge--tortilla{border-color:var(--tortilla-border)}
+
+    .cart{border:1px solid var(--line);border-radius:12px;padding:1.1rem;background:var(--surface);box-shadow:inset 0 1px 0 rgba(255,255,255,.45);max-height:320px;overflow:auto}
+    .line{display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--line-strong)}
+    .line:last-child{border-bottom:none}
     .qtybox{display:flex;align-items:center;gap:.5rem}
-    .totals{margin-top:1rem;display:grid;gap:.5rem}
-    .totals .row{display:flex;justify-content:space-between}
-    .grand{font-size:1.6rem;font-weight:900}
-    .accept-btn{margin-top:1.2rem;padding:1rem 2rem;font-size:1.2rem;background:var(--op2);color:#0b0f18;border:none;border-radius:12px;cursor:pointer;align-self:flex-end;box-shadow:0 6px 18px rgba(0,0,0,.22);transition:transform .06s ease,background .2s ease}
-    .accept-btn:active{transform:translateY(1px)}
-    .accept-btn:hover{background:#1aa58a}
-    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#22c3a6;color:#0b0f18;padding:.75rem 1.1rem;border-radius:12px;font-weight:900;box-shadow:0 10px 26px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:10000}
+    .qtybox .btn{min-width:auto;padding:.35rem .65rem;font-size:.95rem}
+
+    .totals{display:grid;gap:.5rem}
+    .totals .row{display:flex;justify-content:space-between;color:var(--muted);font-weight:600}
+    .totals .grand{font-size:1.6rem;font-weight:800;color:var(--ink)}
+
+    .accept-btn{margin-top:auto;padding:.9rem 1.4rem;font-size:1.05rem;display:inline-flex;align-self:flex-end;box-shadow:0 12px 30px rgba(255,127,80,.25)}
+    .accept-btn:active{transform:scale(.99)}
+
+    .btn-adding{box-shadow:0 0 0 3px rgba(59,130,246,.25)}
+
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--jugos-main);color:var(--jugos-btn-ink);padding:.75rem 1.1rem;border-radius:12px;font-weight:700;box-shadow:0 10px 26px rgba(0,0,0,.18);opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:10000}
     .toast.show{opacity:1}
-    .loader-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:9999}
-    .loader{width:54px;height:54px;border:6px solid rgba(255,255,255,.25);border-top-color:#22c3a6;border-radius:50%;animation:spin .9s linear infinite}
+
+    .loader-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;z-index:9999}
+    .loader{width:54px;height:54px;border:6px solid rgba(255,255,255,.25);border-top-color:var(--jugos-main);border-radius:50%;animation:spin .9s linear infinite}
+
     @keyframes spin{to{transform:rotate(360deg)}}
-    [data-theme="light"]{
-      --fg:#0f1a2b; --card:#ffffff; --line:#d8dce8; --muted:#5c6d82;
-      --op1:#3f7cff; --op2:#1c9f86; --op3:#ff5d8f; --op4:#8c4bff; --ex:#7560ff;
-      --bg-gradient:linear-gradient(135deg,#f7fbff,#eef3ff,#ffeef3);
-      --surface-soft:rgba(15,30,60,.04);
-      --surface-hover:rgba(15,30,60,.08);
-      --surface-softer:rgba(15,30,60,.06);
-      --ex-price-bg:rgba(15,30,60,.1);
-      --divider:rgba(15,30,60,.15);
-    }
-    [data-theme="light"] .btn-adding{background:#22c3a6 !important;color:#0b0f18 !important}
   </style>
 </head>
 <body>
@@ -75,16 +213,16 @@
       <h1>Orden Rápida</h1>
       <div class="controls">
         <button id="lang" class="toggle" aria-label="EN/ES">ES</button>
-        <button id="theme" class="toggle" aria-label="Light/Dark">Dark</button>
+        <button id="theme" class="toggle" aria-label="Light/Dark">Light</button>
       </div>
     </header>
 
     <div class="layout">
-      <section class="card">
+      <section class="card card--section">
         <h2 class="title">Opciones</h2>
         <div id="opts" class="grid"></div>
 
-        <div class="card" style="margin-top:14px">
+        <div class="card card--nested">
           <h2 class="title">Extras</h2>
           <div id="extras" class="ex-list"></div>
         </div>
@@ -100,7 +238,7 @@
           <div class="row"><div class="grand">TOTAL</div><div id="total" class="grand">—</div></div>
         </div>
 
-        <button id="accept" class="accept-btn">Aceptar</button>
+        <button id="accept" class="btn btn--jugos accept-btn">Aceptar</button>
       </aside>
     </div>
   </div>
@@ -134,6 +272,22 @@
       rem:{ es:'− Quitar',  en:'− Remove' }
     };
 
+    const OPTION_THEME = {
+      op1:'cafe',
+      op2:'chorizo',
+      op3:'huevo',
+      op4:'tortilla'
+    };
+
+    const EXTRA_THEME = {
+      ex_cafe:'cafe',
+      ex_cola:'cola',
+      ex_chorizo:'chorizo',
+      ex_huevo:'huevo',
+      ex_jugos:'jugos',
+      ex_tortilla:'tortilla'
+    };
+
     const cart = new Map();
     const $ = s => document.querySelector(s);
     const t = v => typeof v === 'string' ? v : v[currentLang];
@@ -144,11 +298,8 @@
     function add(item){
       const line = cart.get(item.id) || { ...item, qty:0 };
       line.qty++; cart.set(item.id, line);
-      const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
-      if(isDark){
-        const btn = document.querySelector(`button[data-act="add"][data-id="${item.id}"]`);
-        if(btn){ btn.classList.add('btn-adding'); setTimeout(()=>btn.classList.remove('btn-adding'), 2000); }
-      }
+      const btn = document.querySelector(`button[data-act="add"][data-id="${item.id}"]`);
+      if(btn){ btn.classList.add('btn-adding'); setTimeout(()=>btn.classList.remove('btn-adding'), 1200); }
       render();
     }
     function rem(item){
@@ -161,17 +312,24 @@
     function buildOptions(){
       const host = $('#opts'); host.innerHTML='';
       OPTIONS.forEach((o,i)=>{
-        const el = document.createElement('div');
-        el.className='opt';
+        const variant = OPTION_THEME[o.id] || 'cafe';
+        const badgeClass = (i % 4) + 1;
+        const el = document.createElement('article');
+        el.className = `card option-card card--${variant}`;
         el.innerHTML = `
-          <div class="top">
-            <button class="btn50 op${(i%4)+1}">${i+1}</button>
+          <div class="option-header">
+            <span class="badge badge--${badgeClass}">${i + 1}</span>
             <div>
-              <div class="desc">${t(o.desc)} — <strong>${money(o.priceCents)}</strong></div>
-              <div class="actions">
-                <button class="btn" data-act="rem" data-id="${o.id}">${actLabel('rem')}</button>
-                <button class="btn" data-act="add" data-id="${o.id}">${actLabel('add')}</button>
-              </div>
+              <h3 class="option-title">${t(o.name)}</h3>
+              <p class="desc">${t(o.desc)}</p>
+            </div>
+          </div>
+          <hr class="edge--${variant}" />
+          <div class="option-footer">
+            <span class="price">${money(o.priceCents)}</span>
+            <div class="actions">
+              <button class="btn btn--${variant}" data-act="rem" data-id="${o.id}">${actLabel('rem')}</button>
+              <button class="btn btn--${variant}" data-act="add" data-id="${o.id}">${actLabel('add')}</button>
             </div>
           </div>`;
         host.appendChild(el);
@@ -180,13 +338,17 @@
     function buildExtras(){
       const host = $('#extras'); host.innerHTML='';
       EXTRAS.forEach(e=>{
+        const variant = EXTRA_THEME[e.id] || 'cafe';
         const row = document.createElement('div');
-        row.className='ex-row';
+        row.className = `extra-row edge--${variant}`;
         row.innerHTML = `
-          <div class="ex-left">${t(e.name)} <span class="ex-price">${money(e.priceCents)}</span></div>
+          <div class="extra-info">
+            <span>${t(e.name)}</span>
+            <span class="price-chip">${money(e.priceCents)}</span>
+          </div>
           <div class="actions">
-            <button class="btn" data-act="rem" data-id="${e.id}">${actLabel('rem')}</button>
-            <button class="btn" data-act="add" data-id="${e.id}">${actLabel('add')}</button>
+            <button class="btn btn--${variant}" data-act="rem" data-id="${e.id}">${actLabel('rem')}</button>
+            <button class="btn btn--${variant}" data-act="add" data-id="${e.id}">${actLabel('add')}</button>
           </div>`;
         host.appendChild(row);
       });
@@ -303,7 +465,7 @@
     });
 
     (function init(){
-      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.setAttribute('data-theme', 'light');
       buildOptions(); buildExtras(); render();
     })();
   </script>

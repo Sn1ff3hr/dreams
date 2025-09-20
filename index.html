@@ -153,9 +153,16 @@
     .badge--3{background:var(--num3-bg);color:var(--num3-fg)}
     .badge--4{background:var(--num4-bg);color:var(--num4-fg)}
 
-    .btn{appearance:none;border:0;border-radius:10px;padding:.55rem .9rem;font-weight:600;cursor:pointer;transition:transform .05s ease,background .15s ease,box-shadow .15s ease;color:var(--ink);background:var(--surface);border:1px solid var(--line)}
+    .btn{appearance:none;border:0;border-radius:10px;padding:.55rem .9rem;font-weight:600;cursor:pointer;transition:transform .05s ease,background .15s ease,box-shadow .15s ease,color .15s ease;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
     .btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
     .btn:hover{background:rgba(15,23,42,.08)}
+
+    [data-theme="light"] .btn{background:#CBD5E1;color:var(--ink);border-color:#94A3B8}
+    [data-theme="light"] .btn:hover{background:#94A3B8;color:#0F172A}
+    [data-theme="light"] .toggle{background:#CBD5E1;border-color:#94A3B8;color:#0F172A}
+    [data-theme="light"] .toggle:hover{background:#94A3B8;color:#0F172A}
+
+    .btn.confirming,.toggle.confirming{background:#16A34A !important;border-color:#15803D !important;color:#F8FAFC !important;box-shadow:0 0 0 3px rgba(34,197,94,.25)}
 
     .btn--cafe{background:var(--cafe-main);color:var(--cafe-btn-ink);border-color:var(--cafe-border)}
     .btn--cafe:hover{background:var(--cafe-hover)}
@@ -330,6 +337,7 @@
     const cart = new Map();
     const secureIdPattern = /^[a-z0-9_]+$/;
     const allowedActions = new Set(['add','rem']);
+    const confirmTimers = new WeakMap();
     const REQUEST_HEADERS = Object.freeze({
       'Content-Type':'text/plain'
     });
@@ -347,6 +355,18 @@
     const money = c => (c / CENTS_PER_UNIT).toLocaleString(LOCALE, { style:'currency', currency:'USD' });
     const vatCents = cents => Math.floor((cents * IVA_PERCENT + CENTS_PER_UNIT / 2) / CENTS_PER_UNIT);
     const actLabel = act => ACTION_LABELS[act]?.[currentLang] ?? ACTION_LABELS[act]?.es ?? '';
+
+    function flashConfirmation(btn){
+      if(!btn) return;
+      btn.classList.add('confirming');
+      const existingTimer = confirmTimers.get(btn);
+      if(existingTimer) clearTimeout(existingTimer);
+      const timer = setTimeout(()=>{
+        btn.classList.remove('confirming');
+        confirmTimers.delete(btn);
+      }, 3000);
+      confirmTimers.set(btn, timer);
+    }
 
     function add(item){
       const id = item.id;
@@ -456,12 +476,14 @@
       $('#total').textContent = money(total);
     }
 
-    $('#lang').addEventListener('click', ()=>{
+    $('#lang').addEventListener('click', (event)=>{
+      flashConfirmation(event.currentTarget);
       currentLang = currentLang==='es' ? 'en' : 'es';
       $('#lang').textContent = currentLang.toUpperCase();
       buildOptions(); buildExtras(); render();
     });
-    $('#theme').addEventListener('click', ()=>{
+    $('#theme').addEventListener('click', (event)=>{
+      flashConfirmation(event.currentTarget);
       const root = document.documentElement;
       const cur = root.getAttribute('data-theme') || 'dark';
       const next = cur==='dark' ? 'light' : 'dark';
@@ -472,6 +494,7 @@
     document.body.addEventListener('click', (e)=>{
       const btn = e.target.closest('button[data-act]');
       if(!btn) return;
+      flashConfirmation(btn);
       const id = btn.getAttribute('data-id') ?? '';
       const act = btn.getAttribute('data-act') ?? '';
       if(!secureIdPattern.test(id) || !allowedActions.has(act)) return;
@@ -503,7 +526,8 @@
       return `${mm}/${dd}/${yyyy} ${hh}:${min}`;
     }
 
-    if (acceptBtn) acceptBtn.addEventListener('click', async () => {
+    if (acceptBtn) acceptBtn.addEventListener('click', async (event) => {
+      flashConfirmation(event.currentTarget);
       if (cart.size === 0) { showToast('Carrito vacío'); return; }
       const now = Date.now();
       if (now - lastSubmissionTs < ORDER_RATE_LIMIT_MS) {

@@ -1,354 +1,95 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orden Rápida</title>
+    <meta name="description" content="Interfaz descontinuada. Utiliza la nueva consola segura de pedidos en index.html.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#0F172A">
+    <link rel="alternate" hreflang="es" href="./index.html?lang=es">
+    <link rel="alternate" hreflang="en" href="./index.html?lang=en">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; font-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Resource-Policy" content="same-origin">
+    <title>Interfaz no disponible</title>
     <style>
+        :root {
+            color-scheme: dark light;
+        }
         body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            font-family: Inter, system-ui, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #1f2937, #0f172a 62%);
+            color: #f8fafc;
         }
-        header {
-            background-color: #1e1e1e;
-            padding: 10px;
+        main {
+            max-width: 640px;
+            padding: 3rem 2rem;
+            background: rgba(15, 23, 42, 0.85);
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: 0 30px 70px rgba(8, 12, 24, 0.45);
             text-align: center;
+            backdrop-filter: blur(6px);
         }
-        .tabs {
-            background-color: #1e1e1e;
-            padding: 10px;
-            display: flex;
-            justify-content: flex-start;
-            gap: 20px;
-            border-bottom: 1px solid #333;
+        h1 {
+            margin-top: 0;
+            font-size: 2rem;
         }
-        .tabs span {
-            cursor: pointer;
-            padding: 5px 10px;
+        p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
         }
-        .container {
-            display: flex;
-            flex-direction: row;
-        }
-        .opciones, .resumen {
-            padding: 20px;
-        }
-        .opciones {
-            flex: 3;
-            background-color: #1e1e1e;
-        }
-        .resumen {
-            flex: 1;
-            background-color: #1e1e1e;
-            border-left: 1px solid #333;
-        }
-        .item {
-            display: flex;
-            justify-content: space-between;
+        a {
+            display: inline-flex;
             align-items: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            border-bottom: 1px solid #333;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 999px;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
-        .description {
-            flex: 2;
+        a:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.35);
         }
-        .price {
-            flex: 1;
-            text-align: right;
-            margin-right: 10px;
+        .note {
+            font-size: 0.95rem;
+            color: #cbd5f5;
         }
-        .controls {
-            display: flex;
-            align-items: center;
-        }
-        .controls button, .controls span {
-            margin-left: 5px;
-        }
-        .minus, .plus {
-            background-color: transparent;
-            color: #fff;
-            border: 1px solid #fff;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        .quantity {
-            padding: 5px 10px;
-            border: 1px solid #fff;
-        }
-        .agregar {
-            background-color: transparent;
-            color: #fff;
-            border: 1px solid #fff;
-            padding: 5px 10px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        #aceptar {
-            background-color: #00ffcc;
-            color: #000;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-        }
-        .clicked {
-            background-color: #00ffcc !important;
-            color: #000 !important;
-            transition: background-color 0s, color 0s;
-        }
-        @media (max-width: 600px) {
-            .container {
-                flex-direction: column;
-            }
-            .resumen {
-                border-left: none;
-                border-top: 1px solid #333;
-            }
+        noscript div {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: rgba(250, 204, 21, 0.12);
+            border: 1px solid rgba(250, 204, 21, 0.4);
+            border-radius: 12px;
+            color: #fde68a;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Orden Rápida</h1>
-    </header>
-    <div class="tabs">
-        <span>Opciones</span>
-        <span>Resumen</span>
-    </div>
-    <div class="container">
-        <div class="opciones">
-            <div class="main-items">
-                <div class="item" data-name="Tortilla + Huevos + Chorizo + Bebida" data-price="3.20">
-                    <span class="description">1. Tortilla + Huevos + Chorizo + Bebida</span>
-                    <span class="price">$3.20</span>
-                    <div class="controls">
-                        <button class="minus">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus">+</button>
-                        <button class="agregar">Add</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Tortilla + Chorizo" data-price="2.70">
-                    <span class="description">2. Tortilla + Chorizo</span>
-                    <span class="price">$2.70</span>
-                    <div class="controls">
-                        <button class="minus">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus">+</button>
-                        <button class="agregar">Add</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Tortilla + Huevos" data-price="2.70">
-                    <span class="description">3. Tortilla + Huevos</span>
-                    <span class="price">$2.70</span>
-                    <div class="controls">
-                        <button class="minus">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus">+</button>
-                        <button class="agregar">Add</button>
-                    </div>
-                </div>
-                <div class="item" data-name="2 Tortilla + 2 Huevos + 2 Chorizo + 2 Bebida" data-price="6.40">
-                    <span class="description">4. 2 Tortilla + 2 Huevos + 2 Chorizo + 2 Bebida</span>
-                    <span class="price">$6.40</span>
-                    <div class="controls">
-                        <button class="minus">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus">+</button>
-                        <button class="agregar">Add</button>
-                    </div>
-                </div>
-            </div>
-            <h3>Extras</h3>
-            <div class="extra-items">
-                <div class="item" data-name="Café" data-price="0.70">
-                    <span class="description">Café</span>
-                    <span class="price">$0.70</span>
-                    <div class="controls">
-                        <button class="minus">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus">+</button>
-                        <button class="agregar">Add</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Horchata" data-price="0.70">
-                    <span class="description">Horchata</span>
-                    <span class="price">$0.70</span>
-                    <div class="controls">
-                        <button class="minus">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus">+</button>
-                        <button class="agregar">Add</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Huevo" data-price="0.70">
-                    <span class="description">Huevo</span>
-                    <span class="price">$0.70</span>
-                    <div class="controls">
-                        <button class="minus">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus">+</button>
-                        <button class="agregar">Add</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Tortilla" data-price="0.70">
-                    <span class="description">Tortilla</span>
-                    <span class="price">$0.70</span>
-                    <div class="controls">
-                        <button class="minus">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus">+</button>
-                        <button class="agregar">Add</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Bebida" data-price="0.70">
-                    <span class="description">Bebida</span>
-                    <span class="price">$0.70</span>
-                    <div class="controls">
-                        <button class="minus">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus">+</button>
-                        <button class="agregar">Add</button>
-                    </div>
-                </div>
-                <div class="item" data-name="Jugos" data-price="1.00">
-                    <span class="description">Jugos</span>
-                    <span class="price">$1.00</span>
-                    <div class="controls">
-                        <button class="minus">- Remove</button>
-                        <span class="quantity">0</span>
-                        <button class="plus">+ Add</button>
-                        <button class="agregar">Add</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="resumen">
-            <div>Subtotal <span id="subtotal">$0.00</span></div>
-            <div>IVA (15%) <span id="iva">$0.00</span></div>
-            <div>TOTAL <span id="total">$0.00</span></div>
-            <button id="aceptar">Aceptar</button>
-        </div>
-    </div>
-    <script>
-        let cart = {};
-
-        const items = document.querySelectorAll('.item');
-        items.forEach(item => {
-            const minus = item.querySelector('.minus');
-            const plus = item.querySelector('.plus');
-            const agregar = item.querySelector('.agregar');
-            const quantitySpan = item.querySelector('.quantity');
-            let quantity = 0;
-
-            plus.addEventListener('click', () => {
-                quantity++;
-                quantitySpan.textContent = quantity;
-                plus.classList.add('clicked');
-                setTimeout(() => plus.classList.remove('clicked'), 3000);
-                updateCart(item);
-            });
-
-            minus.addEventListener('click', () => {
-                if (quantity > 0) {
-                    quantity--;
-                    quantitySpan.textContent = quantity;
-                    minus.classList.add('clicked');
-                    setTimeout(() => minus.classList.remove('clicked'), 3000);
-                    updateCart(item);
-                }
-            });
-
-            agregar.addEventListener('click', () => {
-                if (quantity > 0) {
-                    const name = item.dataset.name;
-                    const price = parseFloat(item.dataset.price);
-                    cart[name] = (cart[name] || 0) + quantity;
-                    updateResumen();
-                    quantity = 0;
-                    quantitySpan.textContent = quantity;
-                }
-            });
-        });
-
-        function updateCart(item) {
-            const name = item.dataset.name;
-            const price = parseFloat(item.dataset.price);
-            const quantity = parseInt(item.querySelector('.quantity').textContent);
-            if (quantity > 0) {
-                cart[name] = quantity;
-            } else {
-                delete cart[name];
-            }
-            updateResumen();
-        }
-
-        function updateResumen() {
-            let subtotal = 0;
-            for (let name in cart) {
-                const item = document.querySelector(`.item[data-name="${name}"]`);
-                if (item) {
-                    const price = parseFloat(item.dataset.price);
-                    subtotal += price * cart[name];
-                }
-            }
-            const iva = subtotal * 0.15;
-            const total = subtotal + iva;
-            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('iva').textContent = `$${iva.toFixed(2)}`;
-            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
-        }
-
-        document.getElementById('aceptar').addEventListener('click', () => {
-            if (Object.keys(cart).length === 0) {
-                alert('No hay ítems en la orden');
-                return;
-            }
-            const date = new Date();
-            const dateStr = date.toLocaleDateString('es-ES');
-            const timeStr = date.toLocaleTimeString('es-ES');
-            const data = {
-                date: dateStr,
-                time: timeStr,
-                items: cart,
-                subtotal: parseFloat(document.getElementById('subtotal').textContent.slice(1)),
-                vat: parseFloat(document.getElementById('iva').textContent.slice(1)),
-                total: parseFloat(document.getElementById('total').textContent.slice(1))
-            };
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycby4qXKJurprCQJkQVgAcCzTSY96wwtNkDPdwK6AEgrcWEdy2IO04E9WcqoZTDCsutHxBA/exec';
-            fetch(scriptUrl, {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
-                mode: 'cors' // Enable CORS mode to read the response
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.text();
-            })
-            .then(text => {
-                if (text.includes('Success')) {
-                    alert('Orden enviada exitosamente');
-                    cart = {};
-                    updateResumen();
-                } else {
-                    alert('Respuesta del servidor: ' + text);
-                }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-                alert('Error al enviar la orden: ' + error.message + '. Verifique la consola para más detalles.');
-            });
-        });
-    </script>
+    <main>
+        <h1>Esta vista fue retirada</h1>
+        <p>Para cumplir con la política OPS CySec Core y concentrar la superficie de ataque, esta interfaz legacy fue deshabilitada. Usa el panel principal endurecido en <strong>index.html</strong>.</p>
+        <a href="./index.html" rel="noopener">Ir al panel seguro</a>
+        <p class="note">Si necesitas acceso a esta vista para pruebas controladas, consulta con el responsable de seguridad.</p>
+        <noscript>
+            <div>Activa JavaScript para continuar.</div>
+        </noscript>
+    </main>
 </body>
 </html>

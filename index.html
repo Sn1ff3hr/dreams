@@ -3,6 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panel seguro para pedidos digitales con control de inventario y doble idioma.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#0F172A">
+    <link rel="alternate" hreflang="es" href="./index.html?lang=es">
+    <link rel="alternate" hreflang="en" href="./index.html?lang=en">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://script.google.com; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Resource-Policy" content="same-origin">
   <style>
     :root{
       /* neutrals */
@@ -85,6 +99,9 @@
     html,body{margin:0;padding:0;font-family:Inter,system-ui,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);min-height:100%}
     body{display:flex;align-items:center;justify-content:center}
 
+    .no-js-notice{background:#FACC15;color:#0F172A;padding:1rem 1.25rem;font-weight:700;text-align:center;box-shadow:0 10px 25px rgba(15,23,42,.12);border-radius:var(--radius);margin:1rem auto;max-width:520px}
+    [data-theme="dark"] .no-js-notice{background:#B45309;color:#FFF}
+
     .wrap{width:100%;max-width:1200px;margin:auto;padding:2.5rem 1.25rem;display:flex;flex-direction:column;gap:2rem}
 
     header{display:flex;justify-content:space-between;align-items:center;gap:1rem}
@@ -136,9 +153,16 @@
     .badge--3{background:var(--num3-bg);color:var(--num3-fg)}
     .badge--4{background:var(--num4-bg);color:var(--num4-fg)}
 
-    .btn{appearance:none;border:0;border-radius:10px;padding:.55rem .9rem;font-weight:600;cursor:pointer;transition:transform .05s ease,background .15s ease,box-shadow .15s ease;color:var(--ink);background:var(--surface);border:1px solid var(--line)}
+    .btn{appearance:none;border:0;border-radius:10px;padding:.55rem .9rem;font-weight:600;cursor:pointer;transition:transform .05s ease,background .15s ease,box-shadow .15s ease,color .15s ease;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
     .btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
     .btn:hover{background:rgba(15,23,42,.08)}
+
+    [data-theme="light"] .btn{background:#CBD5E1;color:var(--ink);border-color:#94A3B8}
+    [data-theme="light"] .btn:hover{background:#94A3B8;color:#0F172A}
+    [data-theme="light"] .toggle{background:#CBD5E1;border-color:#94A3B8;color:#0F172A}
+    [data-theme="light"] .toggle:hover{background:#94A3B8;color:#0F172A}
+
+    .btn.confirming,.toggle.confirming{background:#16A34A !important;border-color:#15803D !important;color:#F8FAFC !important;box-shadow:0 0 0 3px rgba(34,197,94,.25)}
 
     .btn--cafe{background:var(--cafe-main);color:var(--cafe-btn-ink);border-color:var(--cafe-border)}
     .btn--cafe:hover{background:var(--cafe-hover)}
@@ -208,12 +232,15 @@
   </style>
 </head>
 <body>
+  <noscript>
+    <div class="no-js-notice" role="alert">Activa JavaScript para procesar pedidos de forma segura.</div>
+  </noscript>
   <div class="wrap">
     <header>
       <h1>Orden Rápida</h1>
       <div class="controls">
-        <button id="lang" class="toggle" aria-label="EN/ES">ES</button>
-        <button id="theme" class="toggle" aria-label="Light/Dark">Light</button>
+        <button id="lang" type="button" class="toggle" aria-label="EN/ES">ES</button>
+        <button id="theme" type="button" class="toggle" aria-label="Light/Dark">Light</button>
       </div>
     </header>
 
@@ -238,7 +265,7 @@
           <div class="row"><div class="grand">TOTAL</div><div id="total" class="grand">—</div></div>
         </div>
 
-        <button id="accept" class="btn btn--jugos accept-btn">Aceptar</button>
+        <button id="accept" type="button" class="btn btn--jugos accept-btn">Aceptar</button>
       </aside>
     </div>
   </div>
@@ -247,6 +274,21 @@
   <div id="toast" class="toast">¡Pedido enviado con éxito!</div>
 
   <script>
+    'use strict';
+
+    const deepFreeze = (value) => {
+      if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+        Object.getOwnPropertyNames(value).forEach((key) => {
+          const nested = value[key];
+          if (nested && typeof nested === 'object' && !Object.isFrozen(nested)) {
+            deepFreeze(nested);
+          }
+        });
+        Object.freeze(value);
+      }
+      return value;
+    };
+
     const CENTS_PER_UNIT = 100;
     const IVA_PERCENT = 15;
     const LOCALE = 'en-US'; // Use en-US for USD currency formatting
@@ -281,24 +323,79 @@
       ex_tortilla:'tortilla'
     };
 
+    deepFreeze(OPTIONS);
+    deepFreeze(EXTRAS);
+    deepFreeze(ACTION_LABELS);
+    deepFreeze(EXTRA_THEME);
+
+    const ACCEPTABLE_ROWS_LIMIT = 50;
+    const ORDER_RATE_LIMIT_MS = 1500;
+    const ORDER_PAYLOAD_LIMIT = 16000;
+    const MAX_QTY_PER_ITEM = 99;
+    let lastSubmissionTs = 0;
+
     const cart = new Map();
+    const secureIdPattern = /^[a-z0-9_]+$/;
+    const allowedActions = new Set(['add','rem']);
+    const confirmTimers = new WeakMap();
+    const REQUEST_HEADERS = Object.freeze({
+      'Content-Type':'text/plain'
+    });
+    const BASE_REQUEST_INIT = Object.freeze({
+      method:'POST',
+      headers:REQUEST_HEADERS,
+      mode:'cors',
+      cache:'no-store',
+      credentials:'omit',
+      redirect:'follow',
+      referrerPolicy:'no-referrer'
+    });
     const $ = s => document.querySelector(s);
     const t = v => typeof v === 'string' ? v : v[currentLang];
     const money = c => (c / CENTS_PER_UNIT).toLocaleString(LOCALE, { style:'currency', currency:'USD' });
     const vatCents = cents => Math.floor((cents * IVA_PERCENT + CENTS_PER_UNIT / 2) / CENTS_PER_UNIT);
     const actLabel = act => ACTION_LABELS[act]?.[currentLang] ?? ACTION_LABELS[act]?.es ?? '';
 
+    function flashConfirmation(btn){
+      if(!btn) return;
+      btn.classList.add('confirming');
+      const existingTimer = confirmTimers.get(btn);
+      if(existingTimer) clearTimeout(existingTimer);
+      const timer = setTimeout(()=>{
+        btn.classList.remove('confirming');
+        confirmTimers.delete(btn);
+      }, 3000);
+      confirmTimers.set(btn, timer);
+    }
+
     function add(item){
-      const line = cart.get(item.id) || { ...item, qty:0 };
-      line.qty++; cart.set(item.id, line);
-      const btn = document.querySelector(`button[data-act="add"][data-id="${item.id}"]`);
+      const id = item.id;
+      const line = cart.get(id) || { ...item, qty:0 };
+      const safeQty = Number.isFinite(line.qty) && line.qty >= 0 ? line.qty : 0;
+      if(safeQty >= MAX_QTY_PER_ITEM){
+        showToast(`Límite de ${MAX_QTY_PER_ITEM} unidades por artículo`);
+        return;
+      }
+      const nextQty = safeQty + 1;
+      line.qty = nextQty;
+      line.priceCents = Number.isFinite(item.priceCents) && item.priceCents >= 0 ? Math.trunc(item.priceCents) : 0;
+      line.name = item.name;
+      cart.set(id, line);
+      const btn = document.querySelector(`button[data-act="add"][data-id="${id}"]`);
       if(btn){ btn.classList.add('btn-adding'); setTimeout(()=>btn.classList.remove('btn-adding'), 1200); }
       render();
     }
     function rem(item){
       if(!cart.has(item.id)) return;
-      const line = cart.get(item.id); line.qty--;
-      if(line.qty<=0) cart.delete(item.id); else cart.set(item.id, line);
+      const line = cart.get(item.id);
+      const safeQty = Number.isFinite(line.qty) && line.qty > 0 ? line.qty : 0;
+      const nextQty = safeQty - 1;
+      if(nextQty <= 0){
+        cart.delete(item.id);
+      } else {
+        line.qty = nextQty;
+        cart.set(item.id, line);
+      }
       render();
     }
 
@@ -321,8 +418,8 @@
           <div class="option-footer">
             <span class="price">${money(o.priceCents)}</span>
             <div class="actions">
-              <button class="btn btn--${variant}" data-act="rem" data-id="${o.id}">${actLabel('rem')}</button>
-              <button class="btn btn--${variant}" data-act="add" data-id="${o.id}">${actLabel('add')}</button>
+              <button type="button" class="btn btn--${variant}" data-act="rem" data-id="${o.id}">${actLabel('rem')}</button>
+              <button type="button" class="btn btn--${variant}" data-act="add" data-id="${o.id}">${actLabel('add')}</button>
             </div>
           </div>`;
         host.appendChild(el);
@@ -340,8 +437,8 @@
             <span class="price-chip">${money(e.priceCents)}</span>
           </div>
           <div class="actions">
-            <button class="btn btn--${variant}" data-act="rem" data-id="${e.id}">${actLabel('rem')}</button>
-            <button class="btn btn--${variant}" data-act="add" data-id="${e.id}">${actLabel('add')}</button>
+            <button type="button" class="btn btn--${variant}" data-act="rem" data-id="${e.id}">${actLabel('rem')}</button>
+            <button type="button" class="btn btn--${variant}" data-act="add" data-id="${e.id}">${actLabel('add')}</button>
           </div>`;
         host.appendChild(row);
       });
@@ -351,17 +448,25 @@
       const box = $('#cart'); box.innerHTML='';
       let subtotal = 0;
       cart.forEach(line=>{
-        subtotal += line.priceCents * line.qty;
+        const qty = Number.isFinite(line.qty) && line.qty > 0 ? Math.min(MAX_QTY_PER_ITEM, Math.trunc(line.qty)) : 0;
+        const price = Number.isFinite(line.priceCents) && line.priceCents >= 0 ? Math.trunc(line.priceCents) : 0;
+        line.qty = qty;
+        line.priceCents = price;
+        if(!qty){
+          cart.delete(line.id);
+          return;
+        }
+        subtotal += price * qty;
         const el = document.createElement('div');
         el.className='line';
         el.innerHTML = `
           <div>${line.name}</div>
           <div class="qtybox">
-            <button class="btn" data-act="rem" data-id="${line.id}">−</button>
-            <span>${line.qty}</span>
-            <button class="btn" data-act="add" data-id="${line.id}">+</button>
+            <button type="button" class="btn" data-act="rem" data-id="${line.id}">−</button>
+            <span>${qty}</span>
+            <button type="button" class="btn" data-act="add" data-id="${line.id}">+</button>
           </div>
-          <div><strong>${money(line.priceCents*line.qty)}</strong></div>`;
+          <div><strong>${money(price*qty)}</strong></div>`;
         box.appendChild(el);
       });
       const vat = vatCents(subtotal);
@@ -371,12 +476,14 @@
       $('#total').textContent = money(total);
     }
 
-    $('#lang').addEventListener('click', ()=>{
+    $('#lang').addEventListener('click', (event)=>{
+      flashConfirmation(event.currentTarget);
       currentLang = currentLang==='es' ? 'en' : 'es';
       $('#lang').textContent = currentLang.toUpperCase();
       buildOptions(); buildExtras(); render();
     });
-    $('#theme').addEventListener('click', ()=>{
+    $('#theme').addEventListener('click', (event)=>{
+      flashConfirmation(event.currentTarget);
       const root = document.documentElement;
       const cur = root.getAttribute('data-theme') || 'dark';
       const next = cur==='dark' ? 'light' : 'dark';
@@ -387,17 +494,23 @@
     document.body.addEventListener('click', (e)=>{
       const btn = e.target.closest('button[data-act]');
       if(!btn) return;
-      const id = btn.getAttribute('data-id');
-      const act = btn.getAttribute('data-act');
+      flashConfirmation(btn);
+      const id = btn.getAttribute('data-id') ?? '';
+      const act = btn.getAttribute('data-act') ?? '';
+      if(!secureIdPattern.test(id) || !allowedActions.has(act)) return;
       const item = OPTIONS.find(x=>x.id===id) || EXTRAS.find(x=>x.id===id) || cart.get(id);
       if(!item) return;
-      const payload = { id:item.id, name:(item.name?.[currentLang] ?? item.name), priceCents:item.priceCents };
+      const normalizedName = typeof item.name === 'object' ? (item.name?.[currentLang] ?? item.name?.es ?? '') : item.name;
+      const safeName = String(normalizedName ?? '').replace(/[<>]/g, '');
+      const priceCents = Number.isFinite(item.priceCents) && item.priceCents >= 0 ? Math.trunc(item.priceCents) : 0;
+      const payload = { id:item.id, name:safeName, priceCents };
       act==='add' ? add(payload) : rem(payload);
     });
 
     const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyXrbBry5Cmn0RqvDl2lGfhRWBueYvhBSjTk_E83HchPRuacNxa-_DBBjpW8wjjfGMtxw/exec';
     const loader = $('#loader');
     const toast = $('#toast');
+    const acceptBtn = $('#accept');
     function showToast(msg, ms=1800){
       toast.textContent = msg;
       toast.classList.add('show');
@@ -413,47 +526,65 @@
       return `${mm}/${dd}/${yyyy} ${hh}:${min}`;
     }
 
-    $('#accept').addEventListener('click', async () => {
+    if (acceptBtn) acceptBtn.addEventListener('click', async (event) => {
+      flashConfirmation(event.currentTarget);
       if (cart.size === 0) { showToast('Carrito vacío'); return; }
+      const now = Date.now();
+      if (now - lastSubmissionTs < ORDER_RATE_LIMIT_MS) {
+        showToast('Espera un momento antes de reenviar.');
+        return;
+      }
+
       const rows = [];
+      const submissionDate = new Date();
+      const timestamp = formatTimestamp(submissionDate);
+      const timestampISO = submissionDate.toISOString();
       cart.forEach(item => {
-        const rowSubtotal = item.qty * item.priceCents;
+        const qty = Number.isFinite(item.qty) && item.qty > 0 ? Math.trunc(item.qty) : 0;
+        if (!qty) return;
+        const price = Number.isFinite(item.priceCents) && item.priceCents >= 0 ? Math.trunc(item.priceCents) : 0;
+        const rowSubtotal = price * qty;
         const rowVAT = vatCents(rowSubtotal);
         const rowTotal = rowSubtotal + rowVAT;
         rows.push({
-          timestamp: formatTimestamp(new Date()),
+          timestamp,
+          timestamp_iso: timestampISO,
           item: item.name,
-          qty: item.qty,
+          qty,
           subtotal: money(rowSubtotal),
           vat: money(rowVAT),
           total: money(rowTotal)
         });
       });
 
+      if (rows.length === 0) { showToast('Carrito vacío'); return; }
+      if (rows.length > ACCEPTABLE_ROWS_LIMIT) { showToast('Demasiados artículos en un solo pedido'); return; }
+      const payload = JSON.stringify(rows);
+      if (payload.length > ORDER_PAYLOAD_LIMIT) { showToast('El pedido excede el tamaño permitido'); return; }
+
       loader.style.display = 'flex';
+      acceptBtn.disabled = true;
+      acceptBtn.setAttribute('aria-busy', 'true');
+      lastSubmissionTs = now;
       try {
-        const res = await fetch(ENDPOINT, {
-          method: 'POST',
-          body: JSON.stringify(rows),
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          mode: 'cors'
-        });
+        const res = await fetch(ENDPOINT, { ...BASE_REQUEST_INIT, body: payload });
         const text = await res.text();
-        loader.style.display = 'none';
         if (res.ok && text.includes('Success')) {
           showToast('¡Pedido enviado con éxito!');
           cart.clear();
           render();
+          acceptBtn.focus();
         } else {
           showToast(`Error al enviar: ${text || 'Sin respuesta del servidor'}`);
           console.error('Server response:', text);
         }
       } catch (err) {
-        loader.style.display = 'none';
         showToast(`No se pudo conectar: ${err.message}`);
         console.error('Fetch error:', err);
+      } finally {
+        loader.style.display = 'none';
+        acceptBtn.disabled = false;
+        acceptBtn.removeAttribute('aria-busy');
       }
     });
 

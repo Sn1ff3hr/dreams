@@ -29,19 +29,19 @@
     aside.card{display:flex;flex-direction:column}
     .title{font-size:1.2rem;font-weight:800;margin:0 0 1rem}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--gap)}
-    .opt{background:var(--tone-bg,var(--surface-soft));border:2px solid var(--tone-border,var(--line));border-radius:var(--radius);padding:1rem;transition:transform .15s ease,box-shadow .15s ease;background-clip:padding-box;color:var(--tone-text,var(--fg));box-shadow:var(--tone-shadow,0 12px 30px rgba(0,0,0,.22))}
-    .opt:hover{transform:translateY(-2px);box-shadow:var(--tone-shadow-hover,0 18px 36px rgba(0,0,0,.28))}
+    .opt{background:var(--surface-soft);border:2px solid var(--line);border-radius:var(--radius);padding:1rem;transition:transform .15s ease,background .15s ease}
+    .opt:hover{background:var(--surface-hover);transform:scale(1.02)}
     .top{display:flex;align-items:center;gap:.8rem;margin-bottom:.5rem}
     .btn50{width:44px;height:35px;border:none;border-radius:8px;font-weight:900;color:#111}
     .op1{background:var(--op1)} .op2{background:var(--op2)} .op3{background:var(--op3)} .op4{background:var(--op4)}
-    .desc{color:var(--tone-muted,var(--muted));font-size:.95rem}
+    .desc{color:var(--muted);font-size:.95rem}
     .actions{display:flex;gap:.5rem;margin-top:.6rem}
     .btn{padding:6px 12px;border:1px solid var(--line);background:transparent;color:var(--fg);font-weight:800;border-radius:10px;cursor:pointer;font-size:13px;white-space:nowrap;transition:background .15s ease,color .15s ease,border-color .15s ease}
     .btn-adding{background:#22c3a6 !important;color:#0b0f18 !important;border-color:#22c3a6 !important}
     .ex-list{display:flex;flex-direction:column;gap:.75rem}
-    .ex-row{display:grid;grid-template-columns:1fr auto;align-items:center;background:var(--tone-bg,var(--surface-softer));border:1px solid var(--tone-border,var(--line));border-radius:12px;padding:.75rem 1rem;color:var(--tone-text,var(--fg));box-shadow:var(--tone-shadow,0 12px 28px rgba(0,0,0,.22))}
+    .ex-row{display:grid;grid-template-columns:1fr auto;align-items:center;background:var(--surface-softer);border:1px solid var(--line);border-radius:12px;padding:.75rem 1rem}
     .ex-left{display:flex;align-items:center;gap:1rem;font-weight:800}
-    .ex-price{font-size:.9rem;padding:.35rem .7rem;border-radius:8px;border:1px dashed var(--badge-border,var(--line));background:var(--badge-bg,var(--ex-price-bg));color:var(--badge-text,var(--tone-text,var(--fg)));font-weight:800}
+    .ex-price{font-size:.9rem;padding:.35rem .7rem;border-radius:8px;border:1px dashed var(--line);background:var(--ex-price-bg);font-weight:800}
     .cart{border:1px dashed var(--line);border-radius:var(--radius);padding:1rem;max-height:320px;overflow:auto;background:var(--surface-soft)}
     .line{display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:center;padding:.6rem 0;border-bottom:1px dotted var(--divider)}
     .qtybox{display:flex;align-items:center;gap:.5rem}
@@ -57,42 +57,16 @@
     .loader{width:54px;height:54px;border:6px solid rgba(255,255,255,.25);border-top-color:#22c3a6;border-radius:50%;animation:spin .9s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
     [data-theme="light"]{
-      --fg:#12203a; --card:#ffffff; --line:#d7ddee; --muted:#556581;
-      --op1:#4f83ff; --op2:#2ab7a0; --op3:#ff6ea6; --op4:#9b6dff; --ex:#7b6dff;
-      --bg-gradient:linear-gradient(135deg,#f6f0ff,#eaf6ff,#f6e9f4);
-      --surface-soft:rgba(30,40,70,.05);
-      --surface-hover:rgba(30,40,70,.1);
-      --surface-softer:rgba(30,40,70,.07);
-      --ex-price-bg:rgba(30,40,70,.12);
-      --divider:rgba(30,40,70,.18);
+      --fg:#0f1a2b; --card:#ffffff; --line:#d8dce8; --muted:#5c6d82;
+      --op1:#3f7cff; --op2:#1c9f86; --op3:#ff5d8f; --op4:#8c4bff; --ex:#7560ff;
+      --bg-gradient:linear-gradient(135deg,#f7fbff,#eef3ff,#ffeef3);
+      --surface-soft:rgba(15,30,60,.04);
+      --surface-hover:rgba(15,30,60,.08);
+      --surface-softer:rgba(15,30,60,.06);
+      --ex-price-bg:rgba(15,30,60,.1);
+      --divider:rgba(15,30,60,.15);
     }
     [data-theme="light"] .btn-adding{background:#22c3a6 !important;color:#0b0f18 !important}
-
-    /* Opciones palette */
-    [data-theme="dark"] .opt[data-tone="op1"]{--tone-bg:#1f2d44;--tone-border:#3c4f73;--tone-text:#e5edff;--tone-muted:#a9bee9}
-    [data-theme="dark"] .opt[data-tone="op2"]{--tone-bg:#1d3a33;--tone-border:#2f6659;--tone-text:#d4f7f0;--tone-muted:#8cd3c2}
-    [data-theme="dark"] .opt[data-tone="op3"]{--tone-bg:#3a2037;--tone-border:#6a3a62;--tone-text:#f7e5f3;--tone-muted:#d3a1c7}
-    [data-theme="dark"] .opt[data-tone="op4"]{--tone-bg:#2b2e4b;--tone-border:#51548a;--tone-text:#e5e7ff;--tone-muted:#b1b7f9}
-
-    [data-theme="light"] .opt[data-tone="op1"]{--tone-bg:#edf3ff;--tone-border:#a7c4ff;--tone-text:#1d2f53;--tone-muted:#4b628f;--tone-shadow:0 12px 24px rgba(45,58,82,.12);--tone-shadow-hover:0 18px 32px rgba(45,58,82,.16)}
-    [data-theme="light"] .opt[data-tone="op2"]{--tone-bg:#e4f6f1;--tone-border:#86d1bd;--tone-text:#1f3b34;--tone-muted:#3f6f63;--tone-shadow:0 12px 24px rgba(32,70,64,.12);--tone-shadow-hover:0 18px 32px rgba(32,70,64,.16)}
-    [data-theme="light"] .opt[data-tone="op3"]{--tone-bg:#f7e8f4;--tone-border:#e0a9ce;--tone-text:#3b2436;--tone-muted:#714b66;--tone-shadow:0 12px 24px rgba(82,40,70,.12);--tone-shadow-hover:0 18px 32px rgba(82,40,70,.16)}
-    [data-theme="light"] .opt[data-tone="op4"]{--tone-bg:#ece9ff;--tone-border:#b8b0ff;--tone-text:#2e2a55;--tone-muted:#5a538b;--tone-shadow:0 12px 24px rgba(54,48,102,.12);--tone-shadow-hover:0 18px 32px rgba(54,48,102,.16)}
-
-    /* Extras palette */
-    [data-theme="dark"] .ex-row[data-extra="ex_cafe"]{--tone-bg:#2c2019;--tone-border:#6f4b33;--tone-text:#f6dfd2;--badge-bg:#3f2d22;--badge-border:#8a5b3f;--badge-text:#fbeade}
-    [data-theme="dark"] .ex-row[data-extra="ex_cola"]{--tone-bg:#1c2535;--tone-border:#3f5679;--tone-text:#dce7ff;--badge-bg:#2b3650;--badge-border:#5574a3;--badge-text:#f0f5ff}
-    [data-theme="dark"] .ex-row[data-extra="ex_chorizo"]{--tone-bg:#301922;--tone-border:#6a3247;--tone-text:#f4d7e3;--badge-bg:#432536;--badge-border:#8a4663;--badge-text:#ffeaf3}
-    [data-theme="dark"] .ex-row[data-extra="ex_huevo"]{--tone-bg:#1d2e32;--tone-border:#3d5f66;--tone-text:#d8f3f6;--badge-bg:#264349;--badge-border:#4f7980;--badge-text:#ecfcff}
-    [data-theme="dark"] .ex-row[data-extra="ex_jugos"]{--tone-bg:#301f2f;--tone-border:#5b3960;--tone-text:#f2d8f0;--badge-bg:#432945;--badge-border:#824b88;--badge-text:#ffe9fb}
-    [data-theme="dark"] .ex-row[data-extra="ex_tortilla"]{--tone-bg:#2f2622;--tone-border:#6a4a3d;--tone-text:#f4ded4;--badge-bg:#443129;--badge-border:#8a614f;--badge-text:#ffebe0}
-
-    [data-theme="light"] .ex-row[data-extra="ex_cafe"]{--tone-bg:#f6ece4;--tone-border:#d9b99b;--tone-text:#3a2721;--badge-bg:#edd8c9;--badge-border:#cfa986;--badge-text:#3a2721;--tone-shadow:0 12px 24px rgba(76,54,43,.12)}
-    [data-theme="light"] .ex-row[data-extra="ex_cola"]{--tone-bg:#edf1ff;--tone-border:#b4c5f2;--tone-text:#1f2c4a;--badge-bg:#d7e0ff;--badge-border:#9db3ea;--badge-text:#1f2c4a;--tone-shadow:0 12px 24px rgba(40,60,104,.12)}
-    [data-theme="light"] .ex-row[data-extra="ex_chorizo"]{--tone-bg:#f8e8ef;--tone-border:#e0abc5;--tone-text:#3d2132;--badge-bg:#f1d2e1;--badge-border:#c87fa3;--badge-text:#3d2132;--tone-shadow:0 12px 24px rgba(92,40,70,.12)}
-    [data-theme="light"] .ex-row[data-extra="ex_huevo"]{--tone-bg:#e4f5f6;--tone-border:#9fd0d6;--tone-text:#1f3940;--badge-bg:#cfe6ea;--badge-border:#7cbac3;--badge-text:#1f3940;--tone-shadow:0 12px 24px rgba(44,90,96,.12)}
-    [data-theme="light"] .ex-row[data-extra="ex_jugos"]{--tone-bg:#f4e7f4;--tone-border:#d4addd;--tone-text:#36213a;--badge-bg:#ecd0ee;--badge-border:#b97fc7;--badge-text:#36213a;--tone-shadow:0 12px 24px rgba(80,44,90,.12)}
-    [data-theme="light"] .ex-row[data-extra="ex_tortilla"]{--tone-bg:#f3e9e5;--tone-border:#d2b3a8;--tone-text:#352824;--badge-bg:#e6d5cd;--badge-border:#b58f82;--badge-text:#352824;--tone-shadow:0 12px 24px rgba(88,58,48,.12)}
   </style>
 </head>
 <body>
@@ -189,7 +163,6 @@
       OPTIONS.forEach((o,i)=>{
         const el = document.createElement('div');
         el.className='opt';
-        el.dataset.tone = o.id;
         el.innerHTML = `
           <div class="top">
             <button class="btn50 op${(i%4)+1}">${i+1}</button>
@@ -209,7 +182,6 @@
       EXTRAS.forEach(e=>{
         const row = document.createElement('div');
         row.className='ex-row';
-        row.dataset.extra = e.id;
         row.innerHTML = `
           <div class="ex-left">${t(e.name)} <span class="ex-price">${money(e.priceCents)}</span></div>
           <div class="actions">
